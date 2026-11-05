@@ -7,8 +7,8 @@
     "node": ">=22"
   },
   "bin": {
-    "ufc": "./cli.js",
-    "fight-terminal": "./cli.js"
+    "ufc": "cli.js",
+    "fight-terminal": "cli.js"
   },
   "scripts": {
     "start": "node server.js",
