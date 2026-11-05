@@ -7,13 +7,13 @@
     "node": ">=22"
   },
   "bin": {
-    "ufc": "cli.js",
+    "fight": "cli.js",
     "fight-terminal": "cli.js"
   },
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
-    "ufc": "node cli.js"
+    "fight": "node cli.js"
   },
   "repository": {
     "type": "git",
