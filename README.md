@@ -53,3 +53,7 @@ open http://localhost:3000 for the website. the cli and site both need an intern
 `cli.js` handles terminal commands. `schedule.js` gets and filters events for both the cli and website. `app.js` renders the website, and `server.js` serves it locally.
 
 fight cards follow the order provided by espn, which may not put the main event first. fight cards, locations and start times may change. times are event start times, not main event walkouts. this project is not affiliated with ufc or espn.
+
+## releases
+
+update the version in `package.json` and merge it to main. create and push a matching tag such as `v1.0.2`. github checks the version, runs the tests, publishes to npm and creates the matching github release.
