@@ -4,7 +4,7 @@ import {execFileSync, spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 const run = (...args) => execFileSync(process.execPath,['cli.js',...args],{encoding:'utf8'});
 test('help and list expose commands without network access',()=>{
-  for(const option of ['--list','-list','list','--help','-h']) assert.match(run(option),/ufc this weekend/);
+  for(const option of ['--list','-list','list','--help','-h']) assert.match(run(option),/fight this weekend/);
 });
 test('version options match package version',()=>{
   const version=JSON.parse(readFileSync('package.json','utf8')).version;
