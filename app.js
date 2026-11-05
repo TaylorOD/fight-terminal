@@ -1,15 +1,22 @@
 import { addDays, getEvents, localZone, rangeFor } from "./schedule.js";
 
 const timezone = localZone();
-const element = (id) => document.getElementById(id);
+const timezoneLabel = document.getElementById("timezone");
+const searchInput = document.getElementById("search");
+const rangeLabel = document.getElementById("range");
+const eventsList = document.getElementById("events");
+const refreshButton = document.getElementById("refresh");
+const example = document.getElementById("example");
+const copyCommandButton = document.getElementById("copy-command");
+const periodButtons = document.querySelectorAll("[data-period]");
 
 let selectedPeriod = "schedule";
 let events = [];
 let latestRequest = 0;
 
-element("timezone").textContent = `Times in ${timezone.replaceAll("_", " ")}`;
+timezoneLabel.textContent = `Times in ${timezone.replaceAll("_", " ")}`;
 
-// ESPN data is inserted into HTML, so escape it before rendering.
+// ESPN data goes into HTML, so escape it before rendering.
 function escapeHtml(value) {
   const characters = {
     "&": "&amp;",
@@ -18,10 +25,7 @@ function escapeHtml(value) {
     '"': "&quot;",
     "'": "&#39;",
   };
-  return String(value ?? "").replace(
-    /[&<>"']/g,
-    (character) => characters[character],
-  );
+  return String(value ?? "").replace(/[&<>"']/g, (character) => characters[character]);
 }
 
 function renderFight(fight) {
@@ -34,14 +38,8 @@ function renderFight(fight) {
 
 function renderEvent(event) {
   const date = new Date(event.date);
-  const month = new Intl.DateTimeFormat("en", {
-    timeZone: timezone,
-    month: "short",
-  }).format(date);
-  const day = new Intl.DateTimeFormat("en", {
-    timeZone: timezone,
-    day: "2-digit",
-  }).format(date);
+  const month = new Intl.DateTimeFormat("en", { timeZone: timezone, month: "short" }).format(date);
+  const day = new Intl.DateTimeFormat("en", { timeZone: timezone, day: "2-digit" }).format(date);
   const time = new Intl.DateTimeFormat("en", {
     timeZone: timezone,
     weekday: "short",
@@ -58,7 +56,10 @@ function renderEvent(event) {
   return `
     <details class="event">
       <summary>
-        <div class="date-tile"><small>${escapeHtml(month.toUpperCase())}</small><b>${escapeHtml(day)}</b></div>
+        <div class="date-tile">
+          <small>${escapeHtml(month.toUpperCase())}</small>
+          <b>${escapeHtml(day)}</b>
+        </div>
         <div>
           <h3>${escapeHtml(event.name)}</h3>
           <div class="subtitle">${escapeHtml(time)} &nbsp;·&nbsp; ${escapeHtml(event.venue)}<br>${escapeHtml(event.location)}</div>
@@ -70,45 +71,42 @@ function renderEvent(event) {
 }
 
 function renderEvents() {
-  const search = element("search").value.toLowerCase();
+  const search = searchInput.value.toLowerCase();
   const matches = events.filter((event) => {
     const fighters = event.fights.flatMap((fight) => fight.fighters).join(" ");
     return `${event.name} ${fighters}`.toLowerCase().includes(search);
   });
 
   if (!matches.length) {
-    element("events").innerHTML =
-      '<p class="state">No matching upcoming events announced for this window.<br>Try Upcoming or a different search.</p>';
+    eventsList.innerHTML = '<p class="state">No matching upcoming events announced for this window.<br>Try Upcoming or a different search.</p>';
     return;
   }
-
-  element("events").innerHTML = matches.map(renderEvent).join("");
+  eventsList.innerHTML = matches.map(renderEvent).join("");
 }
 
 async function loadEvents() {
   const request = ++latestRequest;
   const range = rangeFor(selectedPeriod, { zone: timezone });
-  element("range").textContent = `${range.start} → ${addDays(range.end, -1)}`;
-  element("events").innerHTML = '<p class="state">Loading the lineup…</p>';
+  rangeLabel.textContent = `${range.start} → ${addDays(range.end, -1)}`;
+  eventsList.innerHTML = '<p class="state">Loading the lineup…</p>';
 
   try {
     const result = await getEvents(range);
-    // Ignore an older response if the user has already picked another period.
+    // An older response should not replace a newer selection.
     if (request !== latestRequest) return;
     events = result;
     renderEvents();
   } catch (error) {
     if (request !== latestRequest) return;
     events = [];
-    element("events").innerHTML =
-      `<p class="state">Couldn’t load the schedule. ${escapeHtml(error.message)}<br>Use Refresh to try again.</p>`;
+    eventsList.innerHTML = `<p class="state">Couldn’t load the schedule. ${escapeHtml(error.message)}<br>Use Refresh to try again.</p>`;
   }
 }
 
-document.querySelectorAll("[data-period]").forEach((button) => {
+periodButtons.forEach((button) => {
   button.addEventListener("click", () => {
     selectedPeriod = button.dataset.period;
-    document.querySelectorAll("[data-period]").forEach((tab) => {
+    periodButtons.forEach((tab) => {
       tab.classList.toggle("active", tab === button);
       tab.setAttribute("aria-pressed", String(tab === button));
     });
@@ -116,13 +114,13 @@ document.querySelectorAll("[data-period]").forEach((button) => {
   });
 });
 
-element("search").addEventListener("input", renderEvents);
-element("refresh").addEventListener("click", loadEvents);
+searchInput.addEventListener("input", renderEvents);
+refreshButton.addEventListener("click", loadEvents);
 
 document.querySelectorAll("[data-example]").forEach((button) => {
   button.addEventListener("click", () => {
-    element("example").textContent = button.dataset.example;
-    element("copy-command").dataset.copy = button.dataset.example;
+    example.textContent = button.dataset.example;
+    copyCommandButton.dataset.copy = button.dataset.example;
   });
 });
 
