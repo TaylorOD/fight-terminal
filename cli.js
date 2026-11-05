@@ -43,5 +43,4 @@ export async function main(args=process.argv.slice(2)) {
   }
   console.log('Source: ESPN. Cards and event start times may change.');
 }
-import {pathToFileURL} from 'node:url';
-if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)main().catch(e=>{console.error(`ufc: ${e.message}`);process.exitCode=1;});
+main().catch(e=>{console.error(`ufc: ${e.message}`);process.exitCode=1;});
