@@ -1,0 +1,37 @@
+{
+  "name": "fight-terminal",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Upcoming UFC events and fight cards from the terminal",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "ufc": "./cli.js",
+    "fight-terminal": "./cli.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "ufc": "node cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaylorOD/fight-terminal.git"
+  },
+  "homepage": "https://www.taylordorsett.com/fight-terminal/",
+  "bugs": {
+    "url": "https://github.com/TaylorOD/fight-terminal/issues"
+  },
+  "keywords": [
+    "ufc",
+    "mma",
+    "schedule",
+    "cli"
+  ],
+  "files": [
+    "cli.js",
+    "schedule.js",
+    "README.md"
+  ]
+}
