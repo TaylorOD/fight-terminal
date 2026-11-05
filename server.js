@@ -1,34 +1,38 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-const allowed = {
+
+const files = {
   "/": "index.html",
   "/index.html": "index.html",
   "/style.css": "style.css",
   "/app.js": "app.js",
   "/schedule.js": "schedule.js",
 };
-createServer(async (req, res) => {
-  const file = allowed[new URL(req.url, "http://localhost").pathname];
+
+const server = createServer(async (request, response) => {
+  const path = new URL(request.url, "http://localhost").pathname;
+  const file = files[path];
+
   if (!file) {
-    res.writeHead(404);
-    res.end("Not found");
+    response.writeHead(404);
+    response.end("Not found");
     return;
   }
+
   try {
-    const data = await readFile(new URL(`./${file}`, import.meta.url));
-    res.setHeader(
-      "Content-Type",
-      file.endsWith(".js")
-        ? "text/javascript; charset=utf-8"
-        : file.endsWith(".css")
-          ? "text/css"
-          : "text/html; charset=utf-8",
-    );
-    res.end(data);
+    const content = await readFile(new URL(`./${file}`, import.meta.url));
+    let contentType = "text/html; charset=utf-8";
+    if (file.endsWith(".js")) contentType = "text/javascript; charset=utf-8";
+    if (file.endsWith(".css")) contentType = "text/css";
+
+    response.setHeader("Content-Type", contentType);
+    response.end(content);
   } catch {
-    res.writeHead(404);
-    res.end("Not found");
+    response.writeHead(404);
+    response.end("Not found");
   }
-}).listen(3000, "127.0.0.1", () =>
-  console.log("Fight Terminal: http://localhost:3000"),
-);
+});
+
+server.listen(3000, "127.0.0.1", () => {
+  console.log("Fight Terminal: http://localhost:3000");
+});
