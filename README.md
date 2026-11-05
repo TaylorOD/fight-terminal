@@ -48,4 +48,8 @@ node server.js
 
 open http://localhost:3000 for the website. the cli and site both need an internet connection.
 
+## code
+
+`cli.js` handles terminal commands. `schedule.js` gets and filters events for both the cli and website. `app.js` renders the website, and `server.js` serves it locally.
+
 fight cards follow the order provided by espn, which may not put the main event first. fight cards, locations and start times may change. times are event start times, not main event walkouts. this project is not affiliated with ufc or espn.
