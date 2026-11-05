@@ -35,6 +35,10 @@ use `--days 365` to look further ahead, `--from 2026-11-06` to start from a date
 
 weekends run friday through sunday in the chosen timezone. this weekend includes the current weekend on saturday and sunday. next weekend is the following friday through sunday.
 
+## built with
+
+node.js for the command line tool. html, css and javascript for the website. espn's public scoreboard for event data. github pages for hosting.
+
 ## run it locally
 
 ```sh
@@ -44,4 +48,4 @@ node server.js
 
 open http://localhost:3000 for the website. the cli and site both need an internet connection.
 
-data comes from espn's public scoreboard. fight cards, locations and start times may change. times are event start times, not main event walkouts. this project is not affiliated with ufc or espn.
+fight cards follow the order provided by espn, which may not put the main event first. fight cards, locations and start times may change. times are event start times, not main event walkouts. this project is not affiliated with ufc or espn.
