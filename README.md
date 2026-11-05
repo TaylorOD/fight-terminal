@@ -37,7 +37,7 @@ weekends run friday through sunday in the chosen timezone. this weekend includes
 
 ## built with
 
-node.js for the command line tool. html, css and javascript for the website. espn's public scoreboard for event data. github pages for hosting.
+node.js for the command line tool and its built in test runner for tests. html, css and javascript for the website. espn's public scoreboard for event data. github pages for hosting. npm for the package. github actions for tests and releases.
 
 ## run it locally
 
