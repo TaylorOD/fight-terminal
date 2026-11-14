@@ -7,6 +7,8 @@ const files = {
   "/style.css": "style.css",
   "/app.js": "app.js",
   "/schedule.js": "schedule.js",
+  "/favicon.svg": "favicon.svg",
+  "/apple-touch-icon.png": "apple-touch-icon.png",
 }
 
 const server = createServer(async (request, response) => {
@@ -24,6 +26,8 @@ const server = createServer(async (request, response) => {
     let contentType = "text/html; charset=utf-8"
     if (file.endsWith(".js")) contentType = "text/javascript; charset=utf-8"
     if (file.endsWith(".css")) contentType = "text/css"
+    if (file.endsWith(".svg")) contentType = "image/svg+xml"
+    if (file.endsWith(".png")) contentType = "image/png"
 
     response.setHeader("Content-Type", contentType)
     response.end(content)
