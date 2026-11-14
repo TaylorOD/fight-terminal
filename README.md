@@ -2,6 +2,8 @@
 
 check upcoming ufc events and fight cards from your terminal. you can also use the [website](https://www.taylordorsett.com/fight-terminal/).
 
+![the fight terminal website](screenshots/site.jpg)
+
 ## install
 
 requires node.js 22 or newer. no api key needed.
@@ -57,3 +59,7 @@ fight cards follow the order provided by espn, which may not put the main event 
 ## releases
 
 update the version in `package.json` and merge it to main. create and push a matching tag such as `v1.0.2`. github checks the version, runs the tests, publishes to npm and creates the matching github release.
+
+## license
+
+MIT license.

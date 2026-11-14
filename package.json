@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "type": "module",
   "description": "Upcoming UFC events and fight cards from the terminal",
+  "license": "MIT",
   "engines": {
     "node": ">=22"
   },
